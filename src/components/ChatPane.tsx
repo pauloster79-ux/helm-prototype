@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { Message } from '../lib/types';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -28,7 +28,7 @@ export default function ChatPane({ messages, onSendMessage, isProcessing }: Chat
           Update your project through conversation
         </p>
       </div>
-      
+
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 py-12">
@@ -54,11 +54,11 @@ export default function ChatPane({ messages, onSendMessage, isProcessing }: Chat
             </div>
           </div>
         )}
-        
+
         {messages.map(message => (
           <ChatMessage key={message.id} message={message} />
         ))}
-        
+
         {isProcessing && (
           <div className="flex items-center gap-2 text-gray-500">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
@@ -67,7 +67,7 @@ export default function ChatPane({ messages, onSendMessage, isProcessing }: Chat
         )}
         <div ref={messagesEndRef} />
       </div>
-      
+
       <div className="border-t border-gray-200">
         <ChatInput onSend={onSendMessage} disabled={isProcessing} />
       </div>

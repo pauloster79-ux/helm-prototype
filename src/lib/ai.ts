@@ -8,7 +8,6 @@ const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
 const anthropic = new Anthropic({
   apiKey: apiKey,
   baseURL: '/api/anthropic',
-  dangerouslyAllowBrowser: true,
   defaultHeaders: {
     'anthropic-dangerous-direct-browser-access': 'true'
   }

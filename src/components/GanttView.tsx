@@ -1,4 +1,3 @@
-import React from 'react';
 import { Task, Project } from '../lib/types';
 import { Layers, CheckCircle, Circle, Clock } from 'lucide-react';
 import { format, differenceInDays, addDays } from 'date-fns';
@@ -10,7 +9,7 @@ interface GanttViewProps {
   onSelectTask: (task: Task) => void;
 }
 
-export default function GanttView({ tasks, project, selectedTask, onSelectTask }: GanttViewProps) {
+export default function GanttView({ tasks, project: _project, selectedTask, onSelectTask }: GanttViewProps) {
   // Calculate project bounds
   const dates = tasks
     .flatMap(t => [t.start_date, t.end_date])
@@ -144,5 +143,3 @@ export default function GanttView({ tasks, project, selectedTask, onSelectTask }
     </div>
   );
 };
-
-

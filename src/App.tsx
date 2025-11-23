@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ChatPane from './components/ChatPane';
 import PlanPane from './components/PlanPane';
 import { useProject, useTasks, useMessages } from './lib/hooks';
@@ -7,7 +7,7 @@ import { generateProjectPlan, detectPlanningIntent } from './lib/planning';
 import { supabase } from './lib/supabase';
 import { resetToSample } from './lib/demo-data';
 import { defaultSystemPrompt } from './data/system-prompt';
-import { Task, Message } from './lib/types';
+import { Task } from './lib/types';
 import PromptDebugger from './components/PromptDebugger';
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
   const { project, loading: projectLoading } = useProject(projectId || '');
   const { tasks, loading: tasksLoading } = useTasks(projectId || '');
-  const { messages, loading: messagesLoading } = useMessages(projectId || '');
+  const { messages } = useMessages(projectId || '');
 
   const handleCreateDemo = async () => {
     setIsProcessing(true);
@@ -62,11 +62,10 @@ function App() {
         console.log('Planning mode detected');
 
         // Add interim message for user feedback
-        const thinkingMessageId = `temp_${Date.now()}`;
         // Note: We can't easily insert a temporary message into Supabase without dirtying the DB history,
         // but for now we'll just rely on the isProcessing state to show activity.
         // Alternatively, we could insert a message saying "I'm working on a plan for you..."
-        
+
         await supabase.from('messages').insert({
           project_id: projectId,
           role: 'assistant',
@@ -84,7 +83,7 @@ function App() {
           const { error: tasksError } = await supabase
             .from('tasks')
             .insert(newTasks);
-          
+
           if (tasksError) {
             throw new Error(`Failed to save tasks: ${tasksError.message}`);
           }
@@ -100,7 +99,7 @@ function App() {
       } else {
         // MANAGEMENT MODE (existing logic)
         console.log('Management mode detected');
-        
+
         const response = await callClaude(
           content,
           project,
@@ -156,7 +155,7 @@ function App() {
   };
 
   const handleResetPrompt = async () => {
-     await handleUpdatePrompt(defaultSystemPrompt);
+    await handleUpdatePrompt(defaultSystemPrompt);
   };
 
   if (!projectId) {
@@ -164,7 +163,7 @@ function App() {
       <div className="h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-4">Helm Prototype</h1>
-          <button 
+          <button
             onClick={handleCreateDemo}
             disabled={isProcessing}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
@@ -186,14 +185,14 @@ function App() {
 
   // If project failed to load (deleted?)
   if (projectId && !project && !projectLoading) {
-     return (
+    return (
       <div className="h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h1 className="text-xl font-bold mb-4">Project not found</h1>
-          <button 
+          <button
             onClick={() => {
-                localStorage.removeItem('helm_project_id');
-                setProjectId(null);
+              localStorage.removeItem('helm_project_id');
+              setProjectId(null);
             }}
             className="text-blue-600 hover:underline"
           >
@@ -214,7 +213,7 @@ function App() {
           isProcessing={isProcessing}
         />
       </div>
-      
+
       {/* Right: Plan */}
       <div className="flex-1 overflow-hidden">
         <PlanPane
@@ -225,8 +224,8 @@ function App() {
         />
       </div>
 
-      <PromptDebugger 
-        systemPrompt={project.settings?.system_prompt || defaultSystemPrompt}
+      <PromptDebugger
+        systemPrompt={project?.settings?.system_prompt || defaultSystemPrompt}
         onSave={handleUpdatePrompt}
         onReset={handleResetPrompt}
         defaultPrompt={defaultSystemPrompt}

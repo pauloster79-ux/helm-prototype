@@ -1,8 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { Project, Task } from './types';
-// @ts-expect-error - importing markdown as raw text
+// importing markdown as raw text
 import planningPromptRaw from '../data/planning-prompt.md?raw';
-// @ts-expect-error - importing markdown as raw text
+// importing markdown as raw text
 import conversionPromptRaw from '../data/conversion-prompt.md?raw';
 
 const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
@@ -10,8 +10,10 @@ const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
 // Must use full URL for the SDK to parse it correctly, similar to ai.ts
 const anthropic = new Anthropic({
   apiKey: apiKey,
-  baseURL: 'http://localhost:5173/api/anthropic',
-  dangerouslyAllowBrowser: true
+  baseURL: '/api/anthropic',
+  defaultHeaders: {
+    'anthropic-dangerous-direct-browser-access': 'true'
+  }
 });
 
 interface ConversionResult {

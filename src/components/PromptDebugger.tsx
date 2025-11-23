@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronUp, ChevronDown, Save, RotateCcw } from 'lucide-react';
 
 interface PromptDebuggerProps {
@@ -8,11 +8,10 @@ interface PromptDebuggerProps {
   defaultPrompt: string;
 }
 
-export default function PromptDebugger({ 
-  systemPrompt, 
-  onSave, 
-  onReset,
-  defaultPrompt 
+export default function PromptDebugger({
+  systemPrompt,
+  onSave,
+  onReset
 }: PromptDebuggerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [editedPrompt, setEditedPrompt] = useState(systemPrompt);
@@ -43,7 +42,7 @@ export default function PromptDebugger({
   return (
     <div className={`fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-lg transition-all duration-300 flex flex-col z-50 ${isOpen ? 'h-96' : 'h-12'}`}>
       {/* Header / Toggle Bar */}
-      <div 
+      <div
         className="flex items-center justify-between px-4 h-12 bg-gray-100 cursor-pointer hover:bg-gray-200"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -58,8 +57,8 @@ export default function PromptDebugger({
       {isOpen && (
         <div className="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
           <div className="flex justify-between items-center">
-             <p className="text-sm text-gray-500">
-              Edit the system prompt below to change how Helm behaves. 
+            <p className="text-sm text-gray-500">
+              Edit the system prompt below to change how Helm behaves.
               Changes affect the next message you send.
             </p>
             <div className="flex gap-2">
@@ -81,7 +80,7 @@ export default function PromptDebugger({
               </button>
             </div>
           </div>
-          
+
           <textarea
             value={editedPrompt}
             onChange={handleChange}

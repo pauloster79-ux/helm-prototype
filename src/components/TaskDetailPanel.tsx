@@ -1,4 +1,3 @@
-import React from 'react';
 import { Task } from '../lib/types';
 import { User, MessageSquare } from 'lucide-react';
 import { format } from 'date-fns';
@@ -70,8 +69,8 @@ export default function TaskDetailPanel({ task, onClose }: TaskDetailPanelProps)
             <div>
               <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">End</div>
               <div className={`text-sm font-medium ${isOverdue(task.end_date, task.status)
-                  ? 'text-red-600'
-                  : 'text-gray-900'
+                ? 'text-red-600'
+                : 'text-gray-900'
                 }`}>
                 {format(new Date(task.end_date), 'MMM d, yyyy')}
               </div>
@@ -94,5 +93,3 @@ export default function TaskDetailPanel({ task, onClose }: TaskDetailPanelProps)
     </div>
   );
 }
-
-

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Project, Task } from '../lib/types';
 import { LayoutList, GanttChart, Layers, RefreshCw } from 'lucide-react';
 import WBSView from './WBSView';
@@ -19,8 +19,8 @@ type ViewMode = 'wbs' | 'gantt' | 'both';
 export default function PlanPane({ project, tasks, selectedTask, onSelectTask }: PlanPaneProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('both');
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-  
-  const completedTasks = tasks.filter(t => t.status === 'completed' && !t.is_phase).length;
+
+  const completedTasks = tasks.filter(t => t.status === 'complete' && !t.is_phase).length;
   const totalTasks = tasks.filter(t => !t.is_phase).length;
   const progress = totalTasks ? (completedTasks / totalTasks) * 100 : 0;
 
@@ -35,7 +35,7 @@ export default function PlanPane({ project, tasks, selectedTask, onSelectTask }:
     }
     setIsResetModalOpen(false);
   };
-  
+
   return (
     <div className="flex h-full bg-gray-50 overflow-hidden">
       {/* Main plan view */}
@@ -47,7 +47,7 @@ export default function PlanPane({ project, tasks, selectedTask, onSelectTask }:
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">{project?.title || 'Loading...'}</h2>
                 <p className="text-sm text-gray-500 mt-1">
-                   Budget: £{project?.settings?.budget?.toLocaleString() ?? '0'}
+                  Budget: £{project?.settings?.budget?.toLocaleString() ?? '0'}
                 </p>
               </div>
               <button
@@ -73,45 +73,42 @@ export default function PlanPane({ project, tasks, selectedTask, onSelectTask }:
               </div>
             </div>
           </div>
-          
+
           {/* View toggle */}
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode('wbs')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'wbs'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${viewMode === 'wbs'
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               <LayoutList className="w-4 h-4" />
               WBS
             </button>
             <button
               onClick={() => setViewMode('gantt')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'gantt'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${viewMode === 'gantt'
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               <GanttChart className="w-4 h-4" />
               Gantt
             </button>
             <button
               onClick={() => setViewMode('both')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'both'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${viewMode === 'both'
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               <Layers className="w-4 h-4" />
               Both
             </button>
           </div>
         </div>
-        
+
         {/* Views */}
         <div className="flex-1 overflow-auto p-6">
           {viewMode === 'wbs' && (
@@ -138,7 +135,7 @@ export default function PlanPane({ project, tasks, selectedTask, onSelectTask }:
           )}
         </div>
       </div>
-      
+
       {/* Task detail panel */}
       {selectedTask && (
         <TaskDetailPanel task={selectedTask} onClose={() => onSelectTask(null)} />
