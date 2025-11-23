@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/anthropic/:match*",
+            "destination": "https://api.anthropic.com/:match*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
