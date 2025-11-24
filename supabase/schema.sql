@@ -19,7 +19,7 @@ create table public.tasks (
   status text default 'not-started',
   assignee text,
   start_date date,
-  due_date date,
+  end_date date,
   completed_date date,
   dependencies text[] default array[]::text[],
   parent_id uuid references public.tasks(id),

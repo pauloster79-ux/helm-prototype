@@ -7,7 +7,8 @@ const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
 // Must use full URL for the SDK to parse it correctly
 const anthropic = new Anthropic({
   apiKey: apiKey,
-  baseURL: '/api/anthropic',
+  baseURL: typeof window !== 'undefined' ? `${window.location.origin}/api/anthropic` : '/api/anthropic',
+  dangerouslyAllowBrowser: true,
   defaultHeaders: {
     'anthropic-dangerous-direct-browser-access': 'true'
   }
